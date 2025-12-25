@@ -1,18 +1,19 @@
-name: Build ARMisses APK
-
+name: Build APK
 on:
   push:
-    branches: [ "main" ] # สั่ง Build ทุกครั้งที่ push ขึ้น main
+    branches: [ "main" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v4
+      - uses: actions/checkout@v4 # อัปเดตเป็น v4 ที่เสถียร
+      
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2 # แก้จาก v4 เป็น v2 ตามที่ระบบแนะนำ
         with:
           channel: 'stable'
-      
+          
       - name: Install Dependencies
         run: flutter pub get
 
@@ -22,5 +23,5 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: armisses-release-apk
+          name: ARMisses-Ultra-Final
           path: build/app/outputs/flutter-apk/app-release.apk
