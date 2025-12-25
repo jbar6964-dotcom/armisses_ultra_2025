@@ -10,7 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   geolocator: ^11.0.0
-  google_fonts: ^6.3.3
+  google_fonts: ^6.2.0  # ลดจาก 6.3.3 เป็น 6.2.0 เพื่อให้เข้ากับ SDK 3.3.0 ของคุณครับ
   http: ^1.1.0
 
 dev_dependencies:
