@@ -7,12 +7,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4 # อัปเดตเป็น v4 ที่เสถียร
+      - uses: actions/checkout@v4
       
       - name: Setup Flutter
-        uses: subosito/flutter-action@v2 # แก้จาก v4 เป็น v2 ตามที่ระบบแนะนำ
+        uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
+          flutter-version: '3.19.0' # ระบุเวอร์ชันที่เสถียรเพื่อเลี่ยงปัญหา v1 embedding
           
       - name: Install Dependencies
         run: flutter pub get
