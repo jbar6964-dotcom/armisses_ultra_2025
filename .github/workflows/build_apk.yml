@@ -1,0 +1,26 @@
+name: Build ARMisses APK
+
+on:
+  push:
+    branches: [ "main" ] # สั่ง Build ทุกครั้งที่ push ขึ้น main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+      
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Build APK
+        run: flutter build apk --release
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: armisses-release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
