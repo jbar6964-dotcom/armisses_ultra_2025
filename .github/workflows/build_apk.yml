@@ -13,7 +13,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.19.0' # ล็อคเวอร์ชันนี้เพื่อแก้ปัญหา v1 embedding
+          flutter-version: '3.19.0'
           
       - name: Install Dependencies
         run: flutter pub get
@@ -25,4 +25,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ARMisses-Ultra-Final
-          path: build/app/outputs/flutter-apk/app-release.apk
+          path: build/app/outputs/flutter-apk/app-release.apkM
