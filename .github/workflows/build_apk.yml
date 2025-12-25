@@ -15,17 +15,16 @@ jobs:
           channel: 'stable'
           flutter-version: '3.19.0'
 
-      - name: Auto-Repair Project & Fix Const Error
+      - name: Auto-Repair & Fix Code Error
         run: |
-          # 1. ซ่อมโครงสร้าง Android
+          # ล้างโฟลเดอร์ Android และสร้างใหม่แบบ v2 อัตโนมัติ
           rm -rf android
           flutter create . --platforms android --project-name armisses_ultra_2025
           
-          # 2. เพิ่ม Library ที่ขาด
-          flutter pub add geolocator google_fonts http
-          
-          # 3. ท่าไม้ตาย: สั่งแก้คำว่า 'const settings = AndroidSettings' เป็น 'final settings' ให้เองเลย!
+          # ท่าไม้ตาย: สั่งโรบอทแก้คำผิดใน main.dart ให้เอง พาร์ทเนอร์ไม่ต้องแตะโค้ด
           sed -i 's/const settings = AndroidSettings/final settings = AndroidSettings/g' lib/main.dart
+          
+          flutter pub get
 
       - name: Build APK
         run: flutter build apk --release --no-tree-shake-icons
@@ -34,4 +33,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ARMisses-Ultra-Final
-          path: build/app/outputs/flutter-apk/app-release.apk
+          path: build/app/outputs/flutter-apk/app-release.apk # แก้ชื่อไฟล์ apkM เป็น apk แล้ว
