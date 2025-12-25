@@ -8,38 +8,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
           flutter-version: '3.19.0'
-
-      - name: Auto-Repair All Errors From Images
+      - name: Auto-Repair Systems
         run: |
-          # 1. สร้างโฟลเดอร์ Assets และไฟล์ไอคอนจำลอง (แก้รูปที่ 2)
+          # สร้างโฟลเดอร์และไฟล์ไอคอนจำลอง
           mkdir -p assets/icon
           touch assets/icon/icon.png
-          
-          # 2. ล้างและสร้างโครงสร้าง Android ใหม่ให้เป็นระบบ v2 (แก้รูปที่ 1)
+          # ล้างโครงสร้างเก่าที่พังและสร้างใหม่
           rm -rf android
           flutter create . --platforms android --project-name armisses_ultra_2025
-          
-          # 3. อัปเกรด Kotlin เป็นเวอร์ชันล่าสุด 1.9.0 (แก้รูปที่ 3)
+          # อัปเกรด Kotlin เป็น 1.9.0 (แก้ปัญหาหน้าจอแดงของคุณ)
           sed -i 's/ext.kotlin_version = .*/ext.kotlin_version = "1.9.0"/g' android/build.gradle
-          
-          # 4. แก้ไขโค้ด main.dart (const -> final) ให้อัตโนมัติ
-          sed -i 's/const settings = AndroidSettings/final settings = AndroidSettings/g' lib/main.dart
-          
-          # 5. แก้ไขการย่อหน้าใน pubspec.yaml ให้ถูกต้อง (แก้รูปที่ 2)
-          sed -i 's/    geolocator/  geolocator/g' pubspec.yaml
-          sed -i 's/    google_fonts/  google_fonts/g' pubspec.yaml
-          
           flutter pub get
-
       - name: Build APK
         run: flutter build apk --release --no-tree-shake-icons
-
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
