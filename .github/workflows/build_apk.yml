@@ -13,13 +13,13 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.19.0' # ระบุเวอร์ชันที่เสถียรเพื่อเลี่ยงปัญหา v1 embedding
+          flutter-version: '3.19.0'
           
       - name: Install Dependencies
         run: flutter pub get
 
       - name: Build APK
-        run: flutter build apk --release
+        run: flutter build apk --release --no-tree-shake-icons
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
