@@ -8,26 +8,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
+      
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
           flutter-version: '3.19.0'
 
-      # แก้ปัญหาที่ 1 & 2: สั่งสร้างไฟล์ Android ใหม่ทั้งหมดให้เป็นระบบ v2 อัตโนมัติ
-      - name: Regenerate Android Files
+      - name: Auto-Repair Project & Fix Const Error
         run: |
+          # 1. ซ่อมโครงสร้าง Android
           rm -rf android
           flutter create . --platforms android --project-name armisses_ultra_2025
-
-      - name: Install Dependencies
-        run: flutter pub get
+          
+          # 2. เพิ่ม Library ที่ขาด
+          flutter pub add geolocator google_fonts http
+          
+          # 3. ท่าไม้ตาย: สั่งแก้คำว่า 'const settings = AndroidSettings' เป็น 'final settings' ให้เองเลย!
+          sed -i 's/const settings = AndroidSettings/final settings = AndroidSettings/g' lib/main.dart
 
       - name: Build APK
         run: flutter build apk --release --no-tree-shake-icons
 
-      # แก้ปัญหาที่ 3: ลบตัว M ที่พิมพ์เกินออก (apkM -> apk)
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
